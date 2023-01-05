@@ -20,11 +20,18 @@ async function checkUsernameAvail(request, response, next) {
 }
 
 async function validateUser(request, response, next) {
+     const user = await USER.findUser({ username: request.body.username })
      const { username, password } = request.body
      if (!username || !password) {
           next({
                status: 422,
                message: 'username and password required'
+          })
+     }
+     else if (!user.length) {
+          next({
+               status: 404,
+               message: 'invalid credentials'
           })
      }
      else {
