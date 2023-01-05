@@ -28,12 +28,6 @@ async function validateUser(request, response, next) {
                message: 'username and password required'
           })
      }
-     else if (!user.length) {
-          next({
-               status: 404,
-               message: 'invalid credentials'
-          })
-     }
      else {
           const user = await USER.findUser({ username: request.body.username }).first()
           request.user = user
