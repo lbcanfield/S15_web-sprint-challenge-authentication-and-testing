@@ -29,7 +29,7 @@ router.post('/login', validateUser, (request, response, next) => {
      else {
           next({
                status: 401,
-               message: 'Invalid Credentials'
+               message: 'invalid credentials'
           })
      }
 });
