@@ -4,16 +4,23 @@ const bcrypt = require('bcryptjs')
 
 async function checkUsernameAvail(request, response, next) {
      try {
-
-          const userAvail = await USER.findUser({ username: request.body.username })
-          if (!userAvail.length) {
-               next()
-          }
-          else {
+          if (!request.body.username || !request.body.password) {
                next({
                     status: 422,
-                    message: "Username Taken"
+                    message: 'username and password required'
                })
+          }
+          else {
+               const userAvail = await USER.findUser({ username: request.body.username })
+               if (!userAvail.length) {
+                    next()
+               }
+               else {
+                    next({
+                         status: 422,
+                         message: "Username Taken"
+                    })
+               }
           }
      }
      catch (error) {
