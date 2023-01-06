@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { checkUsernameAvail, validateUser } = require('./auth-middleware')
+const { checkUsernameAvail, validateUser, verifyUser } = require('./auth-middleware')
 const { JWT_SECRET } = require('../secrets/index.js')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
@@ -16,7 +16,7 @@ router.post('/register', validateUser, checkUsernameAvail, (request, response, n
           .catch(next)
 });
 
-router.post('/login', validateUser, (request, response, next) => {
+router.post('/login', validateUser, verifyUser, (request, response, next) => {
      // console.log(request.user.password, 'hey')
      if (bcrypt.compareSync(request.body.password, request.user.password)) {
           const token = tokenBuilder(request.user)
