@@ -35,23 +35,7 @@ async function validateUser(request, response, next) {
 }
 
 
-async function verifyUser(request, response, next) {
-     const { username, password } = request.body
-     const hashedPwd = bcrypt.hashSync(password, 8)
-     console.log(request.user.password)
-     console.log(hashedPwd)
-     if (username !== request.user.username || hashedPwd !== request.user.password) {
-          next({
-               status: 401,
-               message: 'Invalid Credentials'
-          })
-     }
-     else {
-          next()
-     }
-}
 module.exports = {
      checkUsernameAvail,
-     validateUser,
-     verifyUser
+     validateUser
 }
