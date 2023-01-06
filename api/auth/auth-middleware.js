@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs')
 
 async function checkUsernameAvail(request, response, next) {
      try {
+
           const userAvail = await USER.findUser({ username: request.body.username })
           if (!userAvail.length) {
                next()
@@ -29,8 +30,16 @@ async function validateUser(request, response, next) {
      }
      else {
           const user = await USER.findUser({ username: request.body.username }).first()
-          request.user = user
-          next()
+          if (!user) {
+               next({
+                    status: 401,
+                    message: 'invalid credentials'
+               })
+          }
+          else {
+               request.user = user
+               next()
+          }
      }
 }
 
