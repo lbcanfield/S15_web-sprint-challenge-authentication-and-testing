@@ -5,6 +5,13 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const USER = require('./users/users-model')
 
+router.get('/users', (request, response, next) => {
+     USER.find()
+          .then(users => {
+               response.status(200).json(users);
+          })
+          .catch(next)
+})
 
 router.post('/register', checkUsernameAvail, (request, response, next) => {
      const { username, password } = request.body

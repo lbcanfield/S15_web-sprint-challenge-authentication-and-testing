@@ -1,5 +1,4 @@
 const USER = require('./users/users-model')
-const bcrypt = require('bcryptjs')
 
 
 async function checkUsernameAvail(request, response, next) {
