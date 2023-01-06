@@ -20,7 +20,6 @@ async function checkUsernameAvail(request, response, next) {
 }
 
 async function validateUser(request, response, next) {
-     const user = await USER.findUser({ username: request.body.username })
      const { username, password } = request.body
      if (!username || !password) {
           next({
@@ -30,8 +29,16 @@ async function validateUser(request, response, next) {
      }
      else {
           const user = await USER.findUser({ username: request.body.username }).first()
-          request.user = user
-          next()
+          if (!user) {
+               next({
+                    status: 401,
+                    message: 'Invalid Credentials'
+               })
+          }
+          else {
+               request.user = user
+               next()
+          }
      }
 }
 
