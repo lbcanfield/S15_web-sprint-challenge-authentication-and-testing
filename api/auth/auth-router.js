@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken')
 const USER = require('./users/users-model')
 
 
-router.post('/register', validateUser, checkUsernameAvail, (request, response, next) => {
+router.post('/register', checkUsernameAvail, (request, response, next) => {
      const { username, password } = request.body
      const hashedPwd = bcrypt.hashSync(password, 8)
      USER.add({ username, password: hashedPwd })
